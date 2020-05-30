@@ -13,16 +13,16 @@ const sendTweets = async () => {
       headers: { Authorization: `token ${GITHUB_TOKEN}` },
     })
   ).json();
-  let i = 0;
+  console.log("Fetched list of repos");
   for await (const repo of repos) {
-    i++;
-    if (i < 5 && !repo.private) {
+    if (!repo.private) {
       const releases: {
         name: string;
         published_at: string;
       }[] = await (
         await fetch(`https://api.github.com/repos/${repo.full_name}/releases`)
       ).json();
+      console.log("Fetched list of releases", repo.full_name, releases.length);
       for await (const release of releases) {
         if (
           new Date().getTime() - new Date(release.published_at).getTime() <
@@ -38,6 +38,7 @@ const sendTweets = async () => {
 
 /** Post a tweet using IFTTT */
 const tweet = async (message: string) => {
+  console.log("Tweeting", message);
   await fetch(
     `https://maker.ifttt.com/trigger/twitter/with/key/${WEBHOOK_KEY}`,
     {
