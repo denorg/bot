@@ -1,0 +1,25 @@
+name: Tweet
+on:
+  schedule:
+    - cron: "0 * * * *"
+  push:
+    branches:
+      - "master"
+  repository_dispatch:
+    types: [update]
+jobs:
+  release:
+    name: Build
+    runs-on: ubuntu-18.04
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Deno
+        uses: denolib/setup-deno@master
+        with:
+          deno-version: 1.x
+      - name: Run mod.ts
+        run: deno run --unstable --allow-read --allow-write --allow-net --allow-env mod.ts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WEBHOOK_KEY: ${{ secrets.WEBHOOK_KEY }}
