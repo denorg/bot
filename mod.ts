@@ -26,7 +26,7 @@ const sendTweets = async () => {
       for await (const release of releases) {
         if (
           new Date().getTime() - new Date(release.published_at).getTime() <
-          86400000 // Change to 3600000
+          3600000
         )
           await tweet(
             `🎉 We just released ${release.name} of ${repo.full_name}! ${repo.html_url} ${repo.description} #denorg #deno #typescript #denoland`
