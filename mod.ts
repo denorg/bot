@@ -39,8 +39,8 @@ const sendTweets = async () => {
 /** Post a tweet using IFTTT */
 const tweet = async (message: string) => {
   console.log("Tweeting", message);
-  await fetch(
-    `https://maker.ifttt.com/trigger/twitter/with/key/${WEBHOOK_KEY}`,
+  const result = await fetch(
+    `https://maker.ifttt.com/trigger/send_tweet/with/key/${WEBHOOK_KEY}`,
     {
       method: "POST",
       headers: {
@@ -50,6 +50,7 @@ const tweet = async (message: string) => {
       body: JSON.stringify({ value1: message }),
     }
   );
+  console.log("Sent tweet?", result.ok);
 };
 
 sendTweets();
