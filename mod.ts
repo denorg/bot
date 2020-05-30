@@ -29,7 +29,7 @@ const sendTweets = async () => {
           86400000 // Change to 3600000
         )
           await tweet(
-            `🎉 We just released ${release.name} of ${repo.full_name}! ${repo.html_url}: ${repo.description} #denorg #deno #typescript #denoland`
+            `🎉 We just released ${release.name} of ${repo.full_name}! ${repo.html_url} ${repo.description} #denorg #deno #typescript #denoland`
           );
       }
     }
